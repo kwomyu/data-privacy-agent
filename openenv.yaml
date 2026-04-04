@@ -1,0 +1,13 @@
+name: "data-privacy-pro"
+version: "1.0.0"
+entry_point: "server.app:app"
+tasks:
+  - id: "mask-emails"
+    difficulty: "easy"
+    description: "Mask all email addresses in a CSV string."
+  - id: "redact-phones"
+    difficulty: "medium"
+    description: "Identify and redact phone numbers using pattern matching."
+  - id: "sanitize-json"
+    difficulty: "hard"
+    description: "Clean a messy JSON object by renaming keys and hashing IDs."
