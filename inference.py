@@ -3,8 +3,6 @@ import sys
 import requests
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://eliab-data-privacy-agent-geu.hf.space")
-MODEL_NAME = os.getenv("MODEL_NAME", "baseline-agent")
-HF_TOKEN = os.getenv("HF_TOKEN")  # no default
 
 TASKS = [
     {
@@ -22,17 +20,15 @@ TASKS = [
 ]
 
 
-def solve_task(task_id: str, payload) -> dict:
-    """Reset environment then send one action step, return step result."""
+def solve_task(task_id, payload):
     try:
-        # Reset for this task
         requests.post(
             f"{API_BASE_URL}/reset",
             json={"task_id": task_id},
             timeout=30,
         )
     except Exception:
-        pass  # continue even if reset fails
+        pass
 
     try:
         res = requests.post(
@@ -46,7 +42,6 @@ def solve_task(task_id: str, payload) -> dict:
 
 
 def run():
-    # Try to fetch task list from server; fall back to local TASKS list
     try:
         r = requests.get(f"{API_BASE_URL}/tasks", timeout=15)
         if r.status_code == 200:
@@ -57,29 +52,21 @@ def run():
     except Exception:
         task_ids = [t["id"] for t in TASKS]
 
-    # Build a quick lookup for payloads
     payload_map = {t["id"]: t["payload"] for t in TASKS}
 
     for task_id in task_ids:
         payload = payload_map.get(task_id, "")
 
-        # ── [START] block ──────────────────────────────────────────────
         print(f"[START] task={task_id}", flush=True)
 
         result = solve_task(task_id, payload)
-
         reward = float(result.get("reward", 0.0))
-        step_num = 1
 
-        # ── [STEP] block ───────────────────────────────────────────────
-        print(f"[STEP] step={step_num} reward={reward}", flush=True)
-
-        # ── [END] block ────────────────────────────────────────────────
-        print(f"[END] task={task_id} score={reward} steps={step_num}", flush=True)
+        print(f"[STEP] step=1 reward={reward}", flush=True)
+        print(f"[END] task={task_id} score={reward} steps=1", flush=True)
 
     sys.stdout.flush()
 
 
 if __name__ == "__main__":
     run()
-
