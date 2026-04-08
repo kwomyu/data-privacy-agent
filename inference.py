@@ -18,7 +18,25 @@ def solve(task_id, payload):
 
 
 def run():
-    tasks = requests.get(f"{API_BASE_URL}/tasks").json()["tasks"]
+    try:
+        response = requests.get(f"{API_BASE_URL}/tasks")
+
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
+
+        if response.status_code != 200:
+            raise Exception(f"Bad response: {response.status_code}")
+
+        data = response.json()
+
+        if "tasks" not in data:
+            raise ValueError(f"'tasks' key missing in response: {data}")
+
+        tasks = data["tasks"]
+
+    except Exception as e:
+        print("ERROR:", str(e))
+        return []  # fail gracefully instead of crashing
 
     outputs = []
 
