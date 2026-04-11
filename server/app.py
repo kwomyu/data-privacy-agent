@@ -17,7 +17,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 3. The Professional HTML Landing Page
+# 3. Health check endpoint (required by validator)
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+# 4. The Professional HTML Landing Page
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return """
@@ -39,7 +44,7 @@ def read_root():
                 <p><strong>Status:</strong> <span class="status">ONLINE</span></p>
                 <p><strong>Institution:</strong> Graphic Era University (GEU)</p>
                 <p>This environment evaluates AI agents on their ability to sanitize and redact sensitive PII (Personally Identifiable Information).</p>
-                
+
                 <div class="task-list">
                     <strong>Available Task IDs:</strong>
                     <ul>
@@ -48,16 +53,16 @@ def read_root():
                         <li><code>sanitize-json</code> (Hard)</li>
                     </ul>
                 </div>
-                
+
                 <p>📖 <strong>Developer Note:</strong> Access the interactive API documentation at <a href="/docs">/docs</a> to test endpoints.</p>
             </div>
         </body>
     </html>
     """
 
-# 4. The Entry Point
+# 5. The Entry Point
 def main():
-    uvicorn.run(app, host="0.0.0.0", port=8000, proxy_headers=True, forwarded_allow_ips="*")
+    uvicorn.run(app, host="0.0.0.0", port=7860, proxy_headers=True, forwarded_allow_ips="*")
 
 if __name__ == "__main__":
     main()
