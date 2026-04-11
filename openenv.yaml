@@ -1,6 +1,6 @@
 name: "data-privacy-pro"
 version: "1.0.0"
-entry_point: "server.app:app"
+entry_point: "app:app"
 tasks:
   - id: "mask-emails"
     difficulty: "easy"
