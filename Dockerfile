@@ -6,6 +6,6 @@ COPY . .
 
 RUN pip install --no-cache-dir fastapi uvicorn pydantic pandas openenv-core openai requests
 
-EXPOSE 8000
+EXPOSE 7860
 
-CMD ["python", "server/app.py"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
