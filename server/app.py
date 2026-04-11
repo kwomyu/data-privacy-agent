@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from openenv.core.env_server import create_fastapi_app
-from environment import DataPrivacyEnv, MyAction, MyObservation
+from server.environment import DataPrivacyEnv, MyAction, MyObservation
 
 # 1. Initialize the OpenEnv App
 app = create_fastapi_app(DataPrivacyEnv, MyAction, MyObservation)
