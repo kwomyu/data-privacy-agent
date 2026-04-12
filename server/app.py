@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from typing import Optional
 from server.environment import DataPrivacyEnv, MyAction, MyObservation
 
 app = FastAPI()
@@ -20,11 +21,13 @@ def health():
     return {"status": "ok"}
 
 @app.post("/reset")
-def reset(body: dict):
+def reset(body: Optional[dict] = None):
+    if not body:
+        body = {}
     task_id = body.get("task_id", "mask-emails")
     obs = env.reset(task_id=task_id)
     return {"observation": obs.dict(), "reward": 0.05, "done": False}
-
+    
 @app.post("/step")
 def step(body: dict):
     action_data = body.get("action", {})
