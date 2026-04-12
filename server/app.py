@@ -52,5 +52,8 @@ def tasks():
 def read_root():
     return "<h1>🛡️ Data Privacy Environment — ONLINE</h1><p><a href='/docs'>API Docs</a></p>"
 
-if __name__ == "__main__":
+def main():
     uvicorn.run(app, host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    main()
